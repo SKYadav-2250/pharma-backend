@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 
+
 dotenv.config({
     path: './.env'
 })
@@ -42,7 +43,7 @@ const userSchema=new mongoose.Schema({
     },
     refreshToken:{
         type:String
-       }
+       },
 
 
 
@@ -63,7 +64,7 @@ userSchema.methods.generateAccesstoken=function (){
   username: this.username,
   email: this.email,
   
-}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
+}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE });
 
 }
 
@@ -78,7 +79,7 @@ userSchema.methods.generaterefreshtoken=function (){
   username: this.username,
   email: this.email,
   
-}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1m' });
+}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRE });
 
 }
 

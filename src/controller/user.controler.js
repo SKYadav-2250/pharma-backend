@@ -38,7 +38,7 @@ try {
 const resisterdUser=asyncHandler(  async(req, res)=>{
 
 
-    console.log(` registered user controller called  ${req.body}`);
+  
 
       const { username, email, password } = req.body;
 
@@ -88,6 +88,7 @@ const resisterdUser=asyncHandler(  async(req, res)=>{
 
 const loginUser = asyncHandler(async(req, res) => {
 
+  console.log(`req bosy  ${req.body}`)
  const {email, password} = req.body;
 
 
@@ -137,15 +138,92 @@ const loginUser = asyncHandler(async(req, res) => {
   })
 
 
+   });
+
+
+
+const logout =asyncHandler(async (req,res)=>{
+
+  
+  try {
+
+
+       const  user=req.user;
+
+       console.log(` user is ${user._id}`);
+
+      await User.findByIdAndUpdate(
+        user._id,{
+            $set:{
+              email:"john123@gmail.com",
+                refreshToken:"undefined"
+            },
+        },
+        
+        {
+            new:true
+            
+        }
+
+    )
+
+
+    
+  const options={
+    httpOnly:true,
+    secure:true
+  }
+  
+
+        res
+            .clearCookie("accessToken", options)
+            .clearCookie("refreshToken", options)
+            .status(200)
+            .json({
+                message: "Logout successful"
+            });
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ message: "Server error during logout" });
+    }
 
 
 
 
-             });
+})          
+
+
+
+const updatepass = asyncHandler(async (req, res) => {
+
+  
+
+  console.log(` password ${req.body}`);
+  const {email ,password }=req.body;
 
 
 
 
+  if(!password || !email){
+    return res.status(400).json({ message: "Please provide both password and email" });}
 
-export  {loginUser,
+const hashedPassword=await bcrypt.hash(password, 10);
+
+    const userUpdate=await User.findOneAndUpdate(
+      {email:email},
+      {password:hashedPassword},
+      {new:true}
+    )
+
+
+    if(!userUpdate){
+      return res.status(404).json({ message: "User not found" });
+    }
+
+res.status(200).json({ message: "Password updated successfully" });
+
+  })
+
+
+export  {loginUser,logout,updatepass,
   resisterdUser}

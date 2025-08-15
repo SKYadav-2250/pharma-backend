@@ -1,35 +1,41 @@
 
 
-const jwt = require('jsonwebtoken');
-const { asyncHandler } = require('../utilits/asynchandler');
-const { User } = require('../models/user.model');
+import jwt from "jsonwebtoken";
 
 
+import { asyncHandler } from '../utilits/asynchandler.js';
+import {User} from '../models/user.model.js';
 
-const  verifyToken = asyncHandler (async (req, res, next) => {
+
+const  verifyToken = asyncHandler (async (req, _, next) => {
     try {
 
 
    const token=req.cookies?.accesstoken ||
-       req.header('Authorization').replace("Bearer"," ");
+       req.header("Authorization")?.replace("Bearer ", "")
 
+
+    
 
        if(!token){
         return res.status(401).json({error:"Please authenticate using a valid token"});
        }
 
-       const decoded =await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    
+       const decodeToken=await jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
 
 
-       const user=await User.findById(decoded?._id);
+   
+     
+       const user=await User.findById(decodeToken?._id);
 
        if(!user){
         return res.status(401).json({error:"User not found"});
        }
 
 
-      res.user= user
-      console.log("✅ Token is valid:", decoded);
+      req.user= user
+      console.log("✅ Token is valid:", decodeToken);
       next();
        
 

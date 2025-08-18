@@ -63,4 +63,52 @@ const  addMedicine=asyncHandler(async (req,res)=>{
 })
 
 
-export {addMedicine}
+
+
+ const updateMedicine = asyncHandler(async (req, res) => {
+  
+    const { id } = req.params;   // medicine id
+    const updates = req.body;    // new data from frontend
+
+    const updatedMedicine = await Medicine.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedMedicine) {
+      return res.status(404).json({ message: "Medicine not found" });
+    }
+
+    res.status(200).json({
+      message: "Medicine updated successfully",
+      medicine: updatedMedicine,
+    });
+}
+ );
+
+
+
+
+ const medicinedelete=asyncHandler(// controllers/medicineController.js
+ async (req, res) => {
+ 
+    const { id } = req.params; // medicine id from URL
+
+    // Find and delete
+    const deletedMedicine = await Medicine.findByIdAndDelete(id);
+
+    if (!deletedMedicine) {
+      return res.status(404).json({ message: "Medicine not found" });
+    }
+
+    res.status(200).json({
+      message: "Medicine deleted successfully",
+      deletedMedicine,
+    });
+
+}
+);
+
+
+export {addMedicine,updateMedicine,medicinedelete}

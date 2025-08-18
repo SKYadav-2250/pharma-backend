@@ -68,6 +68,52 @@ const labCreate=asyncHandler(async (req, res)=>{
 
 
 
+ const updateLab = asyncHandler(async (req, res) => {
+  
+    const { id } = req.params;   // medicine id
+    const updates = req.body;    // new data from frontend
+
+    const updatedlab = await Medicine.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedlab) {
+      return res.status(404).json({ message: "Lab not found" });
+    }
+
+    res.status(200).json({
+      message: "Medicine updated successfully",
+      medicine: updatedlab,
+    });
+}
+ );
 
 
- export {labCreate};
+
+
+ const labDelete=asyncHandler(// controllers/medicineController.js
+ async (req, res) => {
+ 
+    const { id } = req.params; // medicine id from URL
+
+    // Find and delete
+    const deletedLab = await Medicine.findByIdAndDelete(id);
+
+    if (!deletedLab) {
+      return res.status(404).json({ message: "Medicine not found" });
+    }
+
+    res.status(200).json({
+      message: "Medicine deleted successfully",
+      deletedLab,
+    });
+
+}
+);
+
+
+
+
+ export {labCreate,labDelete,updateLab}

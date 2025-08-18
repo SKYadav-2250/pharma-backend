@@ -225,5 +225,9 @@ res.status(200).json({ message: "Password updated successfully" });
   })
 
 
+
+
+  
+
 export  {loginUser,logout,updatepass,
   resisterdUser}

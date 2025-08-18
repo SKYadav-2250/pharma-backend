@@ -9,7 +9,7 @@ const labSchema = new mongoose.Schema({
   },
   department: {
     type: String,
-    trim: true,
+    trim: true, 
   },
   chemicals: [
     {

@@ -1,18 +1,19 @@
 
 
 import { Router } from "express";
-import { verifyToken } from "../middlewear/auth.middlewear";
-import { addMedicine, updateMedicine } from "../controller/medicine.controller";
+import { verifyToken } from "../middlewear/auth.middlewear.js";
+import { addMedicine, updateMedicine } from "../controller/medicine.controller.js";
 
 
-const router =Router();
+const medicineRouter =Router();
 
 
-router.route('/medicine').post(verifyToken,addMedicine);
+medicineRouter.route('/medicine').post(verifyToken,addMedicine);
 
-router.route('/updateMedicine').post(verifyToken,updateMedicine);
+medicineRouter.route('/updateMedicine').post(verifyToken,updateMedicine);
 
-router.route('delteMedicine').post(verifyToken,updateMedicine);
+medicineRouter.route('delteMedicine').post(verifyToken,updateMedicine);
 
 
 
+export {medicineRouter}

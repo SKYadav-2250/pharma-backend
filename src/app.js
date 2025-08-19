@@ -1,6 +1,7 @@
 
 import express from 'express';
-import {router} from './routes/user.routes.js';
+import {userRouter} from './routes/user.routes.js';
+import {medicineRouter} from './routes/medicine.routes.js'
 
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -21,7 +22,8 @@ app.use(cors({
 
 app.use(cookieParser());
 
-app.use("/pharma/api",router );
+app.use("/pharma/api/user",userRouter );
+app.use("/pharma/api/medi",medicineRouter)
 
 
 export {app};

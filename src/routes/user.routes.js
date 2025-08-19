@@ -5,15 +5,13 @@ import { resisterdUser,loginUser, logout, updatepass} from '../controller/user.c
 import { verifyToken } from '../middlewear/auth.middlewear.js';
 
 
-const router = Router();
+const userRouter = Router();
 
-router.post('/register', resisterdUser);
-router.route('/login').post(loginUser);
+userRouter.post('/register', resisterdUser);
+userRouter.route('/login').post(loginUser);
 
-router.route("/logout").post(verifyToken,logout)
-router.route("/updatepass").post(updatepass)
-
-
+userRouter.route("/logout").post(verifyToken,logout)
+userRouter.route("/updatepass").post(updatepass)
 
 
 
@@ -21,7 +19,9 @@ router.route("/updatepass").post(updatepass)
 
 
 
-export  {router};
+
+
+export  {userRouter};
 
 
 

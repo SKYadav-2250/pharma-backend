@@ -1,5 +1,5 @@
-import { Medicine } from "../models/medicine.model";
-import { asyncHandler } from "../utilits/asynchandler";
+import { Medicine } from "../models/medicine.model.js";
+import { asyncHandler } from "../utilits/asynchandler.js";
 
 
 
@@ -12,20 +12,36 @@ import { asyncHandler } from "../utilits/asynchandler";
 const  addMedicine=asyncHandler(async (req,res)=>{
 
 
-    const {name,price,quantity,description,expiry ,company, ingredients}=req.body;
+    const {name,price,quantity,description,expiryDate ,company, ingredients}=req.body;
+
+           console.log("Body: " + JSON.stringify(req.body));
+               [name, price, quantity, description, expiryDate, company, ingredients].some(field => console.log(field));
+        
 
 
-         if(
-            [ name,price,quantity,description,expiry,company,ingredients].some((field)=>
-                field?.trim()===""
-            )
-                ){
-                    throw new ApiError(400,"All field are required")
-                }
+
+if (
+  [name, price, quantity, description, expiryDate, company].some(
+    (field) =>
+      field === undefined ||
+      field === null ||
+      (typeof field === "string" && field.trim() === "")
+  ) ||
+  !Array.isArray(ingredients) ||
+  ingredients.length === 0 ||
+  ingredients.some((ing) => typeof ing !== "string" || ing.trim() === "")
+) {
+  throw new ApiError(400, "All fields are required");
+}
 
 
+
+           
+ 
 
         const mediExist=await Medicine.findOne({name})    
+
+        
         
         if(mediExist){
             throw new ApiError(400,"Medicnine already exist");
@@ -33,12 +49,13 @@ const  addMedicine=asyncHandler(async (req,res)=>{
 
         }
 
+        
 
 
-        const newMedicine=Medicine.create({
+        const newMedicine= await Medicine.create({
             name:name,
             company:company,
-            expiryDAte:expiry,
+            expiryDate:new Date(expiryDate),
             price:price,
             quantity:quantity,
             description:description,

@@ -36,14 +36,15 @@ description:{
     trim: true,
     lowercase: true
 },
-  expiry: {
+  expiryDate: {
     type: Date,
     required: true,
   },
   company: {
     
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: "Company",
+    type:String,
       
     required: true,
     unique: false,

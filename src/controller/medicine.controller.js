@@ -1,5 +1,6 @@
 import { Medicine } from "../models/medicine.model.js";
 import { asyncHandler } from "../utilits/asynchandler.js";
+import { ApiError } from "../utilits/ApiError.js";
 
 
 
@@ -14,8 +15,9 @@ const  addMedicine=asyncHandler(async (req,res)=>{
 
     const {name,price,quantity,description,expiryDate ,company, ingredients}=req.body;
 
-           console.log("Body: " + JSON.stringify(req.body));
-               [name, price, quantity, description, expiryDate, company, ingredients].some(field => console.log(field));
+    // console.log(` req .body ${req.body}`);
+
+          
         
 
 
@@ -43,11 +45,14 @@ if (
 
         
         
+        
         if(mediExist){
-            throw new ApiError(400,"Medicnine already exist");
-
-
+          throw new ApiError(400,"Medicnine already exist",);
+      
+          
+          
         }
+
 
         
 

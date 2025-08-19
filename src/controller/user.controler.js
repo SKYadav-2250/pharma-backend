@@ -1,6 +1,6 @@
 
 
-
+import { ApiError } from "../utilits/ApiError.js";
 
 import mongoose from "mongoose";
 import {asyncHandler} from "../utilits/asynchandler.js";
@@ -106,12 +106,14 @@ const loginUser = asyncHandler(async(req, res) => {
         const user = await User.findOne({ email});
 
         if(!user){
-            return res.status(404).json({message:"User not found"});
+                       throw ApiError(404,"User Not Found");
+
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
+
         if(!isPasswordValid){
-            return res.status(401).json({message:"Invalid password"});
+           throw ApiError(401,"Invalid PassWord");
         }
 
 

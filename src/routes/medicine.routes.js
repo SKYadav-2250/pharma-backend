@@ -8,7 +8,7 @@ import { addMedicine, updateMedicine } from "../controller/medicine.controller.j
 const medicineRouter =Router();
 
 
-medicineRouter.route('/medicine').post(verifyToken,addMedicine);
+medicineRouter.route('/medicine').post(addMedicine);
 
 medicineRouter.route('/updateMedicine').post(verifyToken,updateMedicine);
 

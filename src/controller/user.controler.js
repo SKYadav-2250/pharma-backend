@@ -99,14 +99,14 @@ const loginUser = asyncHandler(async(req, res) => {
                 field?.trim()===""
             )
                 ){
-                    throw new ApiError(400,"All field are required")
+                    throw  ApiError(400,"All field are required")
                 }
 
           
         const user = await User.findOne({ email});
 
         if(!user){
-                       throw ApiError(404,"User Not Found");
+                       throw new ApiError(404,"User Not Found");
 
         }
 

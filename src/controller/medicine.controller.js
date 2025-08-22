@@ -1,6 +1,7 @@
 import { Medicine } from "../models/medicine.model.js";
 import { asyncHandler } from "../utilits/asynchandler.js";
 import { ApiError } from "../utilits/ApiError.js";
+import { json } from "express";
 
 
 
@@ -92,6 +93,8 @@ if (
     const { id } = req.params;   // medicine id
     const updates = req.body;    // new data from frontend
 
+    console.log(` ${id } and ${updates}`)
+
     const updatedMedicine = await Medicine.findByIdAndUpdate(
       id,
       { $set: updates },
@@ -116,6 +119,8 @@ if (
  async (req, res) => {
  
     const { id } = req.params; // medicine id from URL
+
+    console.log(` id ${id}`);
 
     // Find and delete
     const deletedMedicine = await Medicine.findByIdAndDelete(id);

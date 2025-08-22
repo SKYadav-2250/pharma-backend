@@ -1,5 +1,5 @@
 
-import express from 'express';
+import express, { request } from 'express';
 import {userRouter} from './routes/user.routes.js';
 import {medicineRouter} from './routes/medicine.routes.js'
 
@@ -23,7 +23,7 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use("/pharma/api/user",userRouter );
-app.use("/pharma/api/medi",medicineRouter)
+app.use("/pharma/api/medi",medicineRouter);
 
 
 export {app};

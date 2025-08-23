@@ -17,7 +17,7 @@ console.log(   ` data company  ${company.name}`)
 
    if(!company.name||!company.address || !company.contactEmail ){
 
-   throw new ApiError(401, "All field Are Required");
+   throw  ApiError(401, "All field Are Required");
 
    }
 
@@ -28,7 +28,7 @@ console.log(   ` data company  ${company.name}`)
  console.log(`copmay   ${companyExist}`);
 
  if(companyExist){
-  throw new ApiError(401,"company alredy exist");
+  throw  ApiError(401,"company alredy exist");
  }
 
 
@@ -89,4 +89,32 @@ if(!upadatecompany){
 
 })
 
-export {createCompany,UpdateCompany}
+
+const deleteComapany=asyncHandler(async (req, res)=>{
+
+ const {id}=req.params;
+
+
+ const deleteComp=await Company.findOneAndDelete(id);
+
+
+
+ if(!deleteComp){
+
+
+   throw new ApiError(402, "Company not found");
+ }
+
+
+ res.status(201).json({
+
+   message : "company deleted successfully",
+   company:deleteComp
+ })
+
+
+
+})
+
+export {createCompany,UpdateCompany,deleteComapany}
+

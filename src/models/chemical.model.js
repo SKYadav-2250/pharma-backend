@@ -7,10 +7,10 @@ const chemicalSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  formula: {
+  formula: [{
     type: String,
     trim: true,
-  },
+  }],
   quantityInStock: {
     type: Number,
     default: 0,

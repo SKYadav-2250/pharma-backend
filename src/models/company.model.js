@@ -15,8 +15,15 @@ const companySchema = new mongoose.Schema({
   contactEmail: {
     type: String,
     trim: true,
+    unique:true,
     lowercase: true,
-  }
+  },
+   medicines: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Medicine", 
+    }
+  ]
 }, { timestamps: true });
 
 export const Company = mongoose.model("Company", companySchema);

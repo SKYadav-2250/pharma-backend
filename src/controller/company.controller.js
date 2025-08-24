@@ -3,7 +3,7 @@
 import { Company } from "../models/company.model.js";
 import { ApiError } from "../utilits/ApiError.js";
 import { asyncHandler } from "../utilits/asynchandler.js";
-import mongoose from "mongoose";
+
 
 
 
@@ -89,6 +89,40 @@ if(!upadatecompany){
 
 })
 
+const addMedicine=asyncHandler(async (req, res)=>{
+
+
+
+  const {medicines}=req.body;
+
+  if (!medicines || !Array.isArray(medicines) || medicines.length === 0) {
+    throw new ApiError(400, "Medicines array required");
+  }
+
+
+  const updatedCompany = await Company.findByIdAndUpdate(
+  companyId,
+  {
+    $push: { medicines: { $each: medicines } }, // multiple medicines ek sath push
+  },
+  { new: true }
+);
+
+
+ if (!updatedCompany) {
+          throw new ApiError(400, "Comapany Not Found ");
+
+    }
+
+     res.status(201).json({
+
+    message:"MEdicine aaded successfully",
+    medicines:medicines
+  })
+
+
+})
+
 
 const deleteComapany=asyncHandler(async (req, res)=>{
 
@@ -116,5 +150,5 @@ const deleteComapany=asyncHandler(async (req, res)=>{
 
 })
 
-export {createCompany,UpdateCompany,deleteComapany}
+export {createCompany,UpdateCompany,deleteComapany,addMedicine}
 

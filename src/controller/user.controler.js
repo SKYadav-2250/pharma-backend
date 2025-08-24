@@ -8,6 +8,7 @@ import {User} from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
 
+
 const generateAccesstokenMethod=async(userId)=>{
 
       
@@ -102,8 +103,11 @@ const loginUser = asyncHandler(async(req, res) => {
                     throw  ApiError(400,"All field are required")
                 }
 
+                console.log(`email ${email}`)
           
-        const user = await User.findOne({ email});
+        const user = await User.findOne({email:email});
+
+        console.log(` user ${user}`)
 
         if(!user){
                        throw new ApiError(404,"User Not Found");

@@ -3,6 +3,7 @@
 import { Company } from "../models/company.model.js";
 import { ApiError } from "../utilits/ApiError.js";
 import { asyncHandler } from "../utilits/asynchandler.js";
+import mongoose from "mongoose";
 
 
 
@@ -91,9 +92,14 @@ if(!upadatecompany){
 
 const addMedicine=asyncHandler(async (req, res)=>{
 
+  console.log(' add medicines me hai ')
 
+
+const {id} =req.params;
 
   const {medicines}=req.body;
+
+  console.log(` req . bosy ${medicines}   ${id}`)
 
   if (!medicines || !Array.isArray(medicines) || medicines.length === 0) {
     throw new ApiError(400, "Medicines array required");
@@ -101,7 +107,7 @@ const addMedicine=asyncHandler(async (req, res)=>{
 
 
   const updatedCompany = await Company.findByIdAndUpdate(
-  companyId,
+  id,
   {
     $push: { medicines: { $each: medicines } }, // multiple medicines ek sath push
   },
